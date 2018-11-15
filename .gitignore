@@ -3,3 +3,7 @@
 .DS_Store
 
 node_modules
+src/scss/_inuit-flexgrid
+src/scss/_inuitcss
+src/scss/_sass-map-get-next-prev
+src/scss/_sass-mq
