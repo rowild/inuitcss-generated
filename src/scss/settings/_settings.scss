@@ -1,0 +1,116 @@
+/*------------------------------------------------------
+ * SETTINGS
+ *-----------------------------------------------------*/
+
+$inuit-config: (
+  env: dev, //prod,dev
+  healthcheck: false,
+  debug: false
+);
+
+// You can access data in this map using the following function: inuit-config(<key>)
+// Example usage: @if (inuit-config(debug) == true) { ...  }
+@function inuit-config($key) {
+  @return map-get($inuit-config, $key);
+}
+
+/*------------------------------------------------------
+ * SASS-MQ BREAKPOINTS
+ *-----------------------------------------------------*/
+
+$mq-breakpoints: (
+  mobile: 360px, // 22.25 with 16px, 20em with 18px
+  tablet: 740px, // 46.25em with 16px
+  desktop: 980px // 61.25em with 16px
+  // wide: 1280px, // 80em with 16px
+  // hd: 1520px  // 95em with 16px
+);
+
+$mq-show-breakpoints: (); //(mobile, tablet, desktop, wide);
+// @if (inuit-config(env) == dev) {
+//   $mq-show-breakpoints: (mobile, tablet, desktop, wide);
+// }
+
+$mq-media-type: all; // screen, print
+$mq-base-font-size: 16px;
+$mq-responsive: true;
+
+/*------------------------------------------------------
+ * Spacings & Responsive Spacings
+ *-----------------------------------------------------*/
+
+// Regular maps
+
+$inuit-spacing-directions: (
+  null: null,
+  "-top": "-top",
+  "-right": "-right",
+  "-bottom": "-bottom",
+  "-left": "-left",
+  "-horizontal": "-left" "-right",
+  "-vertical": "-top" "-bottom",
+);
+
+$inuit-spacing-properties: (
+  "padding": "padding",
+  "margin": "margin"
+);
+
+$inuit-spacing-sizes: (
+  null: $inuit-global-spacing-unit,
+  "-tiny": $inuit-global-spacing-unit-tiny,
+  "-small": $inuit-global-spacing-unit-small,
+  "-large": $inuit-global-spacing-unit-large,
+  "-huge": $inuit-global-spacing-unit-huge,
+  "-none": 0
+);
+
+
+
+// Responsive maps
+
+$inuit-responsive-spacing-directions: $inuit-spacing-directions;
+
+$inuit-responsive-spacing-properties: $inuit-spacing-properties;
+
+$inuit-responsive-spacing-sizes: $inuit-spacing-sizes;
+
+
+
+// Restricted responsive maps
+
+$inuit-restricted-responsive-spacing-directions: $inuit-spacing-directions;
+
+$inuit-restricted-responsive-spacing-properties: $inuit-spacing-properties;
+
+$inuit-restricted-responsive-spacing-sizes: $inuit-spacing-sizes;
+
+$inuit-restricted-responsive-spacing-next: '100%';
+
+$inuit-restricted-responsive-spacing-prev: '0';
+
+
+
+$inuit-offsets: true;
+
+
+
+/*------------------------------------------------------
+ * Ratios
+ *-----------------------------------------------------*/
+
+$inuit-ratios: (
+  "2\\:1": (2:1),
+  "4\\:3": (4:3),
+  "16\\:9": (16:9)
+);
+
+
+
+/*------------------------------------------------------
+ * Globals
+ *-----------------------------------------------------*/
+
+$inuit-wrapper-width: 1280px;
+$inuit-global-baseline: 6px;
+$inuit-global-font-size: 16px;

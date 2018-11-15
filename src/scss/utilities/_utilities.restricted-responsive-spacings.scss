@@ -1,0 +1,157 @@
+/* ==========================================================================
+   #RESPONSIVE-SPACINGS
+   ========================================================================== */
+
+/**
+ * These scripts follows the same principles as the regular `responsive-spacings`
+ * utility, with the exception, that the classes generated are strictly bound
+ * to their specific breakpoint states. Therefore they do not influence other
+ *  breakpoint states, which usually happens, when the "mobile first" principle
+ * is followed.
+ *
+ * To clarify:
+ * If a utility class like `u-margin-bottom@mobile` is used, the bottom
+ * margin would also apply to the `tablet` and `desktop` state, because
+ * the `u-margin-bottom@mobile` class only defined a `min-width()`
+ * property.
+ * In order to remove that bottom margin again, at least one additional
+ * utility class with a `-none` is needed, e.g. `u-margin-bottom-none@tablet`,
+ * depending on which breakpoint the behaviour should be cancelled.
+ *
+ * These functions builds upon the original inuitcss mixins and extends them
+ * by a second `$until` parameter with the use of sass-map-get-next-prev`.
+ *
+ * Extra requirements:
+ * Maps, much like those for ultilities.spacings and utilities.responsive-spacings
+ * need to be defined. (These extra maps are there to be able to configure the
+ * output and keep it as small as possible. Just using the other maps most likely
+ * lead to the reation of classes that are never needed.)
+
+ *   $inuit-restricted-responsive-spacing-directions: (
+ *     null: null,
+ *     bottom: bottom,
+ *   );
+ *
+ *   $inuit-restricted-responsive-spacing-properties: (
+ *     "margin": "margin",
+ *   );
+ *
+ *   $inuit-restricted-responsive-spacing-sizes: (
+ *     "-small": $inuit-global-spacing-unit-small,
+ *   );
+ *
+ * You can also copy them to other already existing maps:
+ *
+ *  $inuit-restricted-responsive-spacing-directions: $inuit-responsive-spacing-directions;
+ *  $inuit-restricted-responsive-spacing-properties: $inuit-responsive-spacing-properties;
+ *  $inuit-restricted-responsive-spacing-sizes: $inuit-responsive-spacing-sizes;
+ *
+ * Fallback:
+ * In case the loop does not find a next or prev value, no classes are generated. In these
+ * cases use the regular responsive spacings from the inuitcss framework.
+ *
+ * Output:
+ * The output adds `-only` to the breakpoint parameter, e.g.:
+ *   .u-margin-small@mobile-only {}
+ *
+ * Usage:
+ *   <div class="u-margin-bottom@mobile-only">
+ *
+ * Todo: make this configurable
+ *
+ * Dependencies:
+ * These scripts depend on `sass-map-get-next-prev:
+ * https://github.com/elcheio/sass-map-get-next-prev
+ */
+
+ // Following best practices from _utilities.responsive-spacings.scss:
+$inuit-spacing-directions: null !default;
+
+@if $inuit-spacing-directions == null {
+  @error "In order to use restricted responsive spacings, you also need to include `_utilities.spacings.scss`!";
+}
+@else {
+
+
+
+// For use with sass-mq
+$inuit-widths-breakpoint-separator: \@ !default;
+
+
+
+$inuit-restricted-responsive-spacing-directions: null !default;
+
+$inuit-restricted-responsive-spacing-properties: null !default;
+
+$inuit-restricted-responsive-spacing-sizes: null !default;
+
+$inuit-restricted-responsive-spacing-next: null !default;
+
+$inuit-restricted-responsive-spacing-prev: null !default;
+
+
+
+/* stylelint-disable max-nesting-depth */
+
+// Don't output anything if no responsive spacings are defined.
+@if ($inuit-restricted-responsive-spacing-properties != null) {
+
+  @each $property-namespace, $property in $inuit-restricted-responsive-spacing-properties {
+
+    @each $direction-namespace, $direction-rules in $inuit-restricted-responsive-spacing-directions {
+
+      @each $size-namespace, $size in $inuit-restricted-responsive-spacing-sizes {
+
+        @each $inuit-bp-name, $inuit-bp-value in $mq-breakpoints {
+
+          // Check, if the next breakpoint exists; if not, do not generate any classes.
+          $next: map-get-next($mq-breakpoints, $inuit-bp-name, null);
+
+          @if ($next) {
+
+            @include mq($from: $inuit-bp-name, $until: map-get-next($mq-breakpoints, $inuit-bp-name, null)) {
+
+
+              .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}#{$inuit-widths-breakpoint-separator}#{$inuit-bp-name}-only {
+
+                @each $direction in $direction-rules {
+                  #{$property}#{$direction}: $size !important;
+                }
+
+              }
+
+            }
+
+          }
+          @else {
+
+            @include mq($from: $inuit-bp-name) {
+
+              .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace}#{$inuit-widths-breakpoint-separator}#{$inuit-bp-name} {
+
+                @each $direction in $direction-rules {
+                  #{$property}#{$direction}: $size !important;
+                }
+
+              }
+
+            }
+          }
+
+          // Here we add an `$until` parameter. The parameters for the map-get-next() functions are:
+          // $map, $breakpoint, $fallback
+
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+/* stylelint-enable max-nesting-depth */
+
+}
