@@ -20,8 +20,9 @@ Finally, the gulp task manager groups all media queries using `gulp-group-css-me
 It is not recommended to use this repo in development! It is intended to be used on codepen, jsFiddle etc. only!
 
 ## Requirements
-<b>Node.js</b> must be pre-installed.
-For use with gulp, also <b>gulp-cli</b> must be pre-installed (globally).
+**Node.js** must be pre-installed.
+
+For use with gulp 4, also **gulp-cli** must be pre-installed (globally).
 
 ## Setup
 Install dependencies
@@ -41,4 +42,4 @@ $ npm run build
 ```
 
 ## Note
-There is a webpack configuration, too. It is useable, but be aware that it only produces a minified version of unuitcss. For importing somewhere, this might be preferable, anyway, but if you want to study the generated CSS code, use the gulp task.
+There is a webpack configuration, too. It is useable, but be aware that it only produces a minified version of inuitcss. For importing somewhere, this might be preferable, anyway, but if you want to study the generated CSS code, use the gulp task.
